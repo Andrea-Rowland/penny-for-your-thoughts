@@ -1,4 +1,4 @@
-const { Thoughts } = require('../models');
+const { Thoughts, User } = require('../models');
 
 const thoughtsController = {
 
@@ -52,15 +52,26 @@ const thoughtsController = {
     },
 
     // delete thought
-    deleteThought({ params}, res) {
-        Thoughts.findOneAndDelete({ _id: params.id })
-        .then(dbThoughtsData => {
-            if(!dbThoughtsData) {
+    removeThought({ params}, res) {
+        Thought.findOneAndDelete({ _id: params.thoughtId })
+        .then(deletedThought => {
+            if(!deletedThought) {
                 res.status(404).json({ message: "No thought found with that id." });
+            }
+            return User.findOneAndUpdate(
+                { _id: params.userId },
+                { $pull: { thoughts: params.thoughtId } },
+                {new: true }
+            );
+            
+        })
+        .then(dbUserData => {
+            if(!dbUserData) {
+                res.status(404).json({ message: "No user found with this id." });
                 return;
             }
-            res.json(dbThoughtsData);
+            res.json(dbUserData);
         })
-        .catch(err => res.status(400).json(err));
+        .catch(err => res.json(err));
     }
 }

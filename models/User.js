@@ -14,13 +14,30 @@ const UserSchema = new Schema({
         validate: [validateEmail, 'Please fill a valid email address'],
         match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
     },
-    thoughts: {
+    thoughts: [
+        {
         // Array of _id values referencing the Thought model
+        type: Schema.Types.ObjectId,
+        ref: 'Thoughts'
+        }
+    ],
+    {
+    toJson: {
+        virtuals: true,
+    },
+    id: false
     },
     friends: {
         // array of _id values referencing the User model(self-reference)
     },
     friendCount: {
         // Create a virtual called friendCount that retrieves the length of the user's friends array field on query.
+        UserSchema.virtual('friendCount').get(function() {
+            return this.friends.length;
+        });
     }
-})
+});
+
+const User = model('User', UserSchema);
+
+module.exports = User;
