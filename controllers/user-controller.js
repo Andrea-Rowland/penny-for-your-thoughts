@@ -30,6 +30,13 @@ const userController = {
     },
 
     // create user
+    // // {
+    //     "username": "",
+    //     "email": "",
+    //     "thoughts": [],
+    //     "friends": [],
+    //     "friendCount": #
+    // }
     createUser ({ body }, res) {
         User.create(body)
         .then(dbUserData => res.json(dbUserData))
@@ -60,6 +67,5 @@ const userController = {
             res.json(dbUserData);
         })
         .catch(err => res.status(400).json(err));
-    }
     }
 }
