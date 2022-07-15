@@ -21,21 +21,23 @@ const UserSchema = new Schema({
         ref: 'Thoughts'
         }
     ],
-    {
+    friends: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ]
+},
+{
     toJson: {
         virtuals: true,
     },
     id: false
-    },
-    friends: {
-        // array of _id values referencing the User model(self-reference)
-    },
-    friendCount: {
-        // Create a virtual called friendCount that retrieves the length of the user's friends array field on query.
+    })
+    
+            // Create a virtual called friendCount that retrieves the length of the user's friends array field on query.
         UserSchema.virtual('friendCount').get(function() {
             return this.friends.length;
-        });
-    }
 });
 
 const User = model('User', UserSchema);
