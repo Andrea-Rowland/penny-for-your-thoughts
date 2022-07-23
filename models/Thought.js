@@ -2,17 +2,21 @@ const { Schema, model } = require('mongoose');
 
 const ReactionSchema = new Schema({
     reactionId: {
-        type: Schema.Types.ObjectId
+        type: Schema.Types.ObjectId,
+        default: () => new Types.ObjectId()
     },
     reactionBody: {
-        type: String
+        type: String,
+        required: true
     },
     username: {
-        type: String
+        type: String,
+        required: true
     },
     createdAt: {
         type: Date,
-        default: Date.now
+        default: Date.now,
+        // get: timestamp => helper(timestamp)
     }
 
 });
@@ -21,11 +25,13 @@ const ThoughtSchema = new Schema({
     thoughtText: {
         type: String,
         required: true,
-        match: '/^.{1, 280}$/'
+        minLength: 1,
+        maxLength: 280
     },
     createdAt: {
         type: Date,
-        default: Date.now
+        default: Date.now,
+        // get: timestamp => helper(timestamp)
     },
     username: {
         type: String,
@@ -49,4 +55,4 @@ const ThoughtSchema = new Schema({
 
 const Thought = model('Thought', ThoughtSchema);
 
-module.exports = Thoughts;
+module.exports = Thought;

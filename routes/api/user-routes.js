@@ -4,8 +4,10 @@ const {
     getAllUsers,
     getUserById,
     createUser,
-    updateUserById,
-    deleteUserById
+    updateUser,
+    deleteUser,
+    addFriend,
+    deleteFriend
     // bonus: remove a user's associate thoughts when deleted
 } = require('../../controllers/user-controller');
 
@@ -24,7 +26,13 @@ router
 router
     .route('/:id')
     .get(getUserById)
-    .put(updateUserById)
-    .delete(deleteUserById);
+    .put(updateUser)
+    .delete(deleteUser);
+
+// add a friend
+router
+    .route('/:userId/friends/:friendId')
+    .post(addFriend)
+    .delete(deleteFriend);
 
 module.exports = router;
