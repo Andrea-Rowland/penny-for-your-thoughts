@@ -1,8 +1,28 @@
 # penny-for-your-thoughts
 
-Your challenge is to build an API for a social network web application where users can share their thoughts, react to friends’ thoughts, and create a friend list. You’ll use Express.js for routing, a MongoDB database, and the Mongoose ODM. In addition to using the Express.js (Links to an external site.) and Mongoose (Links to an external site.) packages, you may also optionally use a JavaScript date library of your choice or the native JavaScript Date object to format timestamps.
+## Description
+This application is the API for a social network web application where users can share their thoughts, react to friends' thoughts, and create a friend list.
 
-Because this application won’t be deployed, you’ll also need to create a walkthrough video that demonstrates its functionality and all of the following acceptance criteria being met. You’ll need to submit a link to the video and add it to the README of your project.
+## Table of Contents
+* Installation
+* Usage
+* Technologies Used
+* Video Submissions
+* Questions
+
+## Installation
+Clone files from GitHub to your local machine. Run npm installation. 
+
+## Usage
+Once installed on your machine, you can use insomnia to perform CRUD operations on Users and Thoughts.
+
+## Technologies Used
+* Javascript
+* Express.js
+* MongoDB database
+* Mongoose IDM
+
+
 
 AS A social media startup
 I WANT an API for my social network that uses a NoSQL database
@@ -27,74 +47,6 @@ In addition to this, your walkthrough video should show the POST and DELETE rout
 
 Use the following guidelines to set up your models and API routes:
 
-Models
-User
-
-username
-    String
-    Unique
-    Required
-    Trimmed
-
-email
-    String
-    Required
-    Unique
-    Must match a valid email address (look into Mongoose's matching validation)
-
-thoughts
-    Array of _id values referencing the Thought model
-
-friends
-    Array of _id values referencing the User model (self-reference)
-
-Schema Settings
-    Create a virtual called friendCount that retrieves the length of the user's friends array field on query.
-
-Thought
-
-thoughtText
-    String
-    Required
-    Must be between 1 and 280 characters
-
-createdAt
-    Date
-    Set default value to the current timestamp
-    Use a getter method to format the timestamp on query
-    
-username (The user that created this thought)
-    String
-    Required
-
-reactions (These are like replies)
-    Array of nested documents created with the reactionSchema
-
-Schema Settings
-    Create a virtual called reactionCount that retrieves the length of the thought's reactions array field on query.
-
-Reaction (SCHEMA ONLY)
-
-reactionId
-    Use Mongoose's ObjectId data type
-    Default value is set to a new ObjectId
-
-reactionBody
-    String
-    Required
-    280 character maximum
-
-username
-    String
-    Required
-
-createdAt
-    Date
-    Set default value to the current timestamp
-    Use a getter method to format the timestamp on query
-
-Schema Settings
-    This will not be a model, but rather will be used as the reaction field's subdocument schema in the Thought model.
 
     API Routes
 /api/users
