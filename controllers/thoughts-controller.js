@@ -34,15 +34,15 @@ const thoughtsController = {
 //   "username": "lernantino",
 //   "userId": "5edff358a0fcb779aa7b118b"
 // }
-    createThought ({ body}, res) {
+    createThought ({ body }, res) {
         Thought.create(body)
         .then(dbThoughtsData => {
-            return User.findOneAndUpdate(
-                { _id: body.userId },
-                { $push: { thoughts: dbThoughtsData._id } },
-                {new: true }
-            )
-        })
+                   if(!dbThoughtsData) {
+                    res.status(404).json({ message: 'No user found with this id.' });
+                    return;
+                }
+                res.json(dbThoughtsData);
+            })
         .catch(err => res.status(400).json(err));
     },
 
@@ -84,12 +84,12 @@ const thoughtsController = {
     },
 
     // add reaction
-    addReaction({ params }, res) {
+    addReaction({ params, body }, res) {
         Thought.updateOne({ _id: params.thoughtId },
-            { $push: { reactions: params.reactionId } }
+            { $push: { reactions: body } }
             ).then(dbThoughtData => {
                 if(!dbThoughtData) {
-                    res.status(404).json({ message: "No reaction found with that id. "});
+                    res.status(404).json({ message: "No thought found with that id. "});
                     return;
                 }
                 res.json(dbThoughtData);
@@ -97,6 +97,21 @@ const thoughtsController = {
             .catch(err => res.status(400).json(err));
     
         },
+
+    // delete reaction
+    deleteReaction({ params }, res) {
+        Thought.updateOne({ _id: params.thoughtId },
+            { $pull: { reactions: { _id: params.reactionId } } }
+            ).then(dbThoughtData => {
+                if(!dbThoughtData) {
+                    res.status(404).json({ message: "No thought found with that id. "});
+                    return;
+                }
+                res.json(dbThoughtData);
+            })
+            .catch(err => res.status(400).json(err));
+    
+        }
 }
 
 module.exports = thoughtsController;
