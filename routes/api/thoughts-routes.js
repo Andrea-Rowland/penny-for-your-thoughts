@@ -27,6 +27,10 @@ router
     .route('/:id')
     .get(getThoughtById)
     .put(updateThought)
+    
+
+router
+    .route('/:thoughtId/:userId')
     .delete(deleteThought)
 
 

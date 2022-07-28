@@ -54,15 +54,16 @@ const thoughtsController = {
                 res.status(404).json({ message: 'No thought found with this id.' });
                 return;
             }
-            res.json(dbThoughtsData);
+            res.status(200).json({ message: 'action completed' });
         })
         .catch(err => res.status(400).json(err));
     },
 
     // delete thought
     deleteThought({ params}, res) {
-        Thought.findOneAndDelete({ _id: params.thoughtId })
+        Thought.findOneAndRemove({ _id: params.thoughtId })
         .then(deletedThought => {
+            console.log(deletedThought);
             if(!deletedThought) {
                 res.status(404).json({ message: "No thought found with that id." });
             }
@@ -82,6 +83,7 @@ const thoughtsController = {
         })
         .catch(err => res.json(err));
     },
+
 
     // add reaction
     addReaction({ params, body }, res) {
@@ -115,3 +117,4 @@ const thoughtsController = {
 }
 
 module.exports = thoughtsController;
+
